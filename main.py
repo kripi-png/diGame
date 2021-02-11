@@ -7,7 +7,7 @@ RPC = None
 def main():
     global RPC
     sg.theme('DarkAmber')
-    layout = [  [sg.Text('Search for a game (min 3 characters):'), sg.InputText(enable_events=True, key='gameNameInput')],
+    layout = [  [sg.Text('Search for a game (min 3 characters):'), sg.InputText(enable_events=True, key='gameNameInput',size=(32,1))],
                 [sg.Listbox([], size=(40,5), key='gameList', enable_events=True)],
                 [sg.Text("Game Selected:"), sg.Text('', key='gameSelectedText', size=(50,1))],
                 [sg.Text("Set Details: "), sg.InputText(key='rpcDetails', size=(20,1)), sg.Text("Set State: "), sg.InputText(key='rpcState', size=(20,1)) ],
