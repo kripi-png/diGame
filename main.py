@@ -5,11 +5,12 @@ from pypresence import Presence
 RPC = None
 
 def main():
+    global RPC
     sg.theme('DarkAmber')
     layout = [  [sg.Text('Search for a game (min 3 characters):'), sg.InputText(enable_events=True, key='gameNameInput')],
                 [sg.Listbox([], size=(40,5), key='gameList', enable_events=True)],
                 [sg.Text("Game Selected:"), sg.Text('', key='gameSelectedText', size=(50,1))],
-                [sg.Text("Set Details: "), sg.InputText(key='rpcDetails'), sg.Text("Set State: "), sg.InputText(key='rpcState') ],
+                [sg.Text("Set Details: "), sg.InputText(key='rpcDetails', size=(20,1)), sg.Text("Set State: "), sg.InputText(key='rpcState', size=(20,1)) ],
                 [sg.Button("Submit", key='submit'), sg.Button("Cancel", key='cancel')] ]
 
     window = sg.Window("disGame", layout)
@@ -19,6 +20,7 @@ def main():
         print(event, values)
 
         if event == sg.WIN_CLOSED or event == 'cancel': # if user closes window or clicks cancel
+            if RPC: RPC.close()
             break
 
         if event == 'gameNameInput' and len(values['gameNameInput']) >= 3:
@@ -37,7 +39,6 @@ def main():
                 sg.Popup('You have to select a game!', keep_on_top=True)
 
             else:
-                global RPC
                 client_id = DATA[values['gameList'][0]]
                 state = window['rpcState'].get() or None
                 details = window['rpcDetails'].get() or None
