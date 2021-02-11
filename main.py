@@ -6,7 +6,7 @@ def main():
     layout = [  [sg.Text('Search for a game (min 3 characters):'), sg.InputText(enable_events=True, key='gameNameInput')],
                 [sg.Listbox([], size=(40,5), key='gameList', enable_events=True)],
                 [sg.Text("Game Selected:"), sg.Text('', key='gameSelectedText', size=(50,1))],
-                [sg.Text("Set State: "), sg.InputText(key='rpcState'), sg.Text("Set Details: "), sg.InputText(key='rpcDetails')]
+                [sg.Text("Set State: "), sg.InputText(key='rpcState'), sg.Text("Set Details: "), sg.InputText(key='rpcDetails')],
                 [sg.Button("Submit", key='submit'), sg.Button("Cancel", key='cancel')] ]
 
     window = sg.Window("disGame", layout)
@@ -28,6 +28,9 @@ def main():
 
         elif event == 'gameList' and len(values['gameList']):
             window['gameSelectedText'].update(value=values['gameList'][0])
+
+        elif event == 'submit':
+            client_id = DATA[values['gameList'][0]]
 
     window.close()
 
