@@ -13,7 +13,7 @@ def main():
                 [sg.Text("Set Details: "), sg.InputText(key='rpcDetails', size=(20,1)), sg.Text("Set State: "), sg.InputText(key='rpcState', size=(20,1)) ],
                 [sg.Button("Submit", key='submit'), sg.Button("Cancel", key='cancel')] ]
 
-    window = sg.Window("disGame", layout)
+    window = sg.Window("diGame", layout)
 
     while True:
         event, values = window.read()
