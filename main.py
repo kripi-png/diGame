@@ -1,12 +1,15 @@
 import requests, json
 import PySimpleGUI as sg
+from pypresence import Presence
+
+RPC = None
 
 def main():
     sg.theme('DarkAmber')
     layout = [  [sg.Text('Search for a game (min 3 characters):'), sg.InputText(enable_events=True, key='gameNameInput')],
                 [sg.Listbox([], size=(40,5), key='gameList', enable_events=True)],
                 [sg.Text("Game Selected:"), sg.Text('', key='gameSelectedText', size=(50,1))],
-                [sg.Text("Set State: "), sg.InputText(key='rpcState'), sg.Text("Set Details: "), sg.InputText(key='rpcDetails')],
+                [sg.Text("Set Details: "), sg.InputText(key='rpcDetails'), sg.Text("Set State: "), sg.InputText(key='rpcState') ],
                 [sg.Button("Submit", key='submit'), sg.Button("Cancel", key='cancel')] ]
 
     window = sg.Window("disGame", layout)
@@ -30,7 +33,21 @@ def main():
             window['gameSelectedText'].update(value=values['gameList'][0])
 
         elif event == 'submit':
-            client_id = DATA[values['gameList'][0]]
+            if not values['gameList']:
+                sg.Popup('You have to select a game!', keep_on_top=True)
+
+            else:
+                global RPC
+                client_id = DATA[values['gameList'][0]]
+                state = window['rpcState'].get() or None
+                details = window['rpcDetails'].get() or None
+
+                if RPC: RPC.close() # if not rpc -> RPC = Presence... wont work because
+                                    # then the user cannot change to different game
+                RPC = Presence(client_id, pipe=0)
+                RPC.connect()
+
+                RPC.update(details=details, state=state)
 
     window.close()
 
