@@ -6,7 +6,8 @@ def main():
     layout = [  [sg.Text('Search for a game (min 3 characters):'), sg.InputText(enable_events=True, key='gameNameInput')],
                 [sg.Listbox([], size=(40,5), key='gameList', enable_events=True)],
                 [sg.Text("Game Selected:"), sg.Text('', key='gameSelectedText', size=(50,1))],
-                [sg.Button("Ok", key='ok'), sg.Button("Cancel", key='cancel')] ]
+                [sg.Text("Set State: "), sg.InputText(key='rpcState'), sg.Text("Set Details: "), sg.InputText(key='rpcDetails')]
+                [sg.Button("Submit", key='submit'), sg.Button("Cancel", key='cancel')] ]
 
     window = sg.Window("disGame", layout)
 
